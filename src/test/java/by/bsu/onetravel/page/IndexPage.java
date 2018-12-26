@@ -1,15 +1,14 @@
 package by.bsu.onetravel.page;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class IndexPage {
-    private WebDriver driver;
+import by.bsu.onetravel.driver.Driver;
 
+public class IndexPage extends Page {
     @FindBy(xpath = "//label[@id='owFlight']")
     private WebElement oneWayRadio;
 
@@ -55,31 +54,9 @@ public class IndexPage {
     @FindBy(xpath = "//a[@data-target='#search-opt-flight']")
     private WebElement advencedOptionsButton;
 
-    @FindBy(xpath = "//article[@class='widget-wrap txt-center']/div/section/ul/li[3]")
-    WebElement carsTab;
-
-    @FindBy(xpath = "//article[@class='widget-wrap txt-center']/div/section/ul/li[4]")
-    WebElement vacationsTab;
-
-    @FindBy(id = "isDropOff")
-    private WebElement dropOffInAnotherPlaceButton;
-
-    @FindBy(id = "ember844")
-    private WebElement dropOffInput;
-
-    @FindBy(xpath = "//*[@id='pkg-advance-options']/div/div/a")
-    private WebElement vacationAdvencedOptions;
-
-    @FindBy(id = "rlHtlCar")
-    private WebElement hotelAndCarVacation;
-
-    @FindBy(id = "ember885")
-    private WebElement hotelNameInput;
-
-    public IndexPage(WebDriver driver) {
-        this.driver = driver;
-        driver.get("https://www.onetravel.com/");
-        PageFactory.initElements(driver, this);
+    public IndexPage() {
+        super();
+        PageFactory.initElements(Driver.getDriver(), this);
     }
 
     public void pickOneWayTicketOption() {
@@ -111,12 +88,13 @@ public class IndexPage {
     }
 
     public void pickToReturnFromAnotherAirport() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(chooseToReturnFromAnotherAirport));
+        new WebDriverWait(Driver.getDriver(), 5)
+                .until(ExpectedConditions.visibilityOf(chooseToReturnFromAnotherAirport));
         chooseToReturnFromAnotherAirport.click();
     }
 
     public void openAdvencedOptionsForm() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(advencedOptionsButton));
+        new WebDriverWait(Driver.getDriver(), 5).until(ExpectedConditions.visibilityOf(advencedOptionsButton));
         advencedOptionsButton.click();
     }
 
@@ -137,44 +115,7 @@ public class IndexPage {
     }
 
     public boolean isWarningVisible() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(warning));
-        return warning.isDisplayed();
-    }
-
-    public void openCarsTab() {
-        carsTab.click();
-    }
-
-    public void openVacationsTab() {
-        vacationsTab.click();
-    }
-
-    public void openVacationsAdvencedOptions() {
-        vacationAdvencedOptions.click();
-    }
-
-    public void pickDropOffInAnotherPlaceOption() {
-        dropOffInAnotherPlaceButton.click();
-    }
-
-    public boolean isHotelNameInputVisible() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(hotelNameInput));
-        return hotelNameInput.isDisplayed();
-    }
-
-    public void pickHotelAndCarVacation() {
-        hotelAndCarVacation.click();
-    }
-
-    public boolean isDropOffLocationCanBeSet() {
-        return dropOffInput.isDisplayed();
-    }
-
-    @FindBy(id = "ember887")
-    private WebElement carInput;
-
-    public boolean isCarInputVisible() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(carInput));
-        return carInput.isDisplayed();
+        new WebDriverWait(Driver.getDriver(), 5).until(ExpectedConditions.visibilityOf(warning));
+        return true;
     }
 }

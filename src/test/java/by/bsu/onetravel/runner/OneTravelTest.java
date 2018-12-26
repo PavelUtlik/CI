@@ -1,28 +1,25 @@
-package by.bsu.onetravel.index;
+package by.bsu.onetravel.runner;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import by.bsu.onetravel.driver.Driver;
+import by.bsu.onetravel.page.CarPage;
 import by.bsu.onetravel.page.IndexPage;
+import by.bsu.onetravel.page.VacationsPage;
 
 public class OneTravelTest {
-    private WebDriver driver;
-
     @Test
     public void ableToHideReturnDateCalendarAfterOneWayChoice() {
-        IndexPage indexPage = new IndexPage(driver);
+        IndexPage indexPage = new IndexPage();
         indexPage.pickOneWayTicketOption();
         Assert.assertFalse(indexPage.isReturnCalendarButtonVisible());
     }
 
     @Test
     public void preventsInfantsWithoutSeniors() {
-        IndexPage indexPage = new IndexPage(driver);
+        IndexPage indexPage = new IndexPage();
         indexPage.openBookingForm();
         indexPage.addLapInfant();
         indexPage.removeAdult();
@@ -32,7 +29,7 @@ public class OneTravelTest {
 
     @Test
     public void isAbleToPreventsMoreInfantsThanAdults() {
-        IndexPage indexPage = new IndexPage(driver);
+        IndexPage indexPage = new IndexPage();
         indexPage.openBookingForm();
         indexPage.addLapInfant();
         indexPage.addLapInfant();
@@ -42,7 +39,7 @@ public class OneTravelTest {
 
     @Test
     public void allowsReturnPlaneFromAnotherPlace() {
-        IndexPage indexPage = new IndexPage(driver);
+        IndexPage indexPage = new IndexPage();
         indexPage.openAdvencedOptionsForm();
         indexPage.pickToReturnFromAnotherAirport();
         Assert.assertTrue(indexPage.isReturnAirportInputVisible());
@@ -50,7 +47,7 @@ public class OneTravelTest {
 
     @Test
     public void preventsSameFromAndToPlace() {
-        IndexPage indexPage = new IndexPage(driver);
+        IndexPage indexPage = new IndexPage();
         indexPage.setDestinationAirport("VTB - Vitebsk, Belarus");
         indexPage.selectRequest();
         Assert.assertTrue(indexPage.isWarningVisible());
@@ -58,7 +55,7 @@ public class OneTravelTest {
 
     @Test
     public void limitMaxAllowedBookingQuantity() {
-        IndexPage indexPage = new IndexPage(driver);
+        IndexPage indexPage = new IndexPage();
         indexPage.openBookingForm();
         for (int i = 0; i < 8; i++) {
             indexPage.addAdult();
@@ -70,50 +67,35 @@ public class OneTravelTest {
 
     @Test
     public void allowsChoiceFromMultipleDestinations() {
-        IndexPage indexPage = new IndexPage(driver);
+        IndexPage indexPage = new IndexPage();
         indexPage.chooseMultipleDestinationFlights();
         Assert.assertTrue(indexPage.isSecondFromInputVisible());
     }
 
     @Test
     public void allowsDifferentCarDropOffPlace() {
-        IndexPage indexPage = new IndexPage(driver);
-        indexPage.openCarsTab();
-        indexPage.pickDropOffInAnotherPlaceOption();
-        Assert.assertTrue(indexPage.isDropOffLocationCanBeSet());
+        CarPage page = new CarPage();
+        page.pickDropOffInAnotherPlaceOption();
+        Assert.assertTrue(page.isDropOffLocationCanBeSet());
     }
 
     @Test
     public void isAbleToBookFlightAndHotelForVacation() {
-        IndexPage indexPage = new IndexPage(driver);
-        indexPage.openVacationsTab();
-        indexPage.openVacationsAdvencedOptions();
-        Assert.assertTrue(indexPage.isHotelNameInputVisible());
+        VacationsPage page = new VacationsPage();
+        page.openVacationsAdvencedOptions();
+        Assert.assertTrue(page.isHotelNameInputVisible());
     }
 
     @Test
     public void isAbleToBookHotelAndCarVacation() {
-        IndexPage indexPage = new IndexPage(driver);
-        indexPage.openVacationsTab();
-        indexPage.pickHotelAndCarVacation();
-        indexPage.openVacationsAdvencedOptions();
-        Assert.assertTrue(indexPage.isCarInputVisible());
-    }
-
-    @BeforeClass
-    public void setupTest() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments(
-                "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
-        options.addArguments("--start-maximized");
-        driver = new ChromeDriver(options);
+        VacationsPage page = new VacationsPage();
+        page.pickHotelAndCarVacation();
+        page.openVacationsAdvencedOptions();
+        Assert.assertTrue(page.isCarInputVisible());
     }
 
     @AfterClass
-    public void teardown() {
-        if (driver != null) {
-            driver.quit();
-        }
+    public void closeDriver() {
+        Driver.closeDriver();
     }
 }
