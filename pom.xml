@@ -5,14 +5,6 @@
 	<groupId>by.bsu</groupId>
 	<artifactId>webdriver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<plugin>
-    		<groupId>org.apache.maven.plugins</groupId>
-    		<artifactId>maven-compiler-plugin</artifactId>
-    		<configuration>
-        		<source>1.6</source>
-        		<target>1.6</target>
-    		</configuration>
-	</plugin>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
 		<dependency>
@@ -34,4 +26,12 @@
 			<version>3.14.0</version>
 		</dependency>
 	</dependencies>
+	<plugin>
+    		<groupId>org.apache.maven.plugins</groupId>
+    		<artifactId>maven-compiler-plugin</artifactId>
+    		<configuration>
+        		<source>1.6</source>
+        		<target>1.6</target>
+    		</configuration>
+	</plugin>
 </project>
